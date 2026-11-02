@@ -15,4 +15,5 @@ email: wroy@proton.me
 build-error-email: wroy@proton.me
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
+depends: libminhook ^0.1.0-a.0.1 ? ($cxx.target.class == 'windows')
 builds: default : &( +linux +windows ) ; Platforms IW4x projects target.

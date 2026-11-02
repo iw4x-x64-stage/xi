@@ -4,6 +4,12 @@
 intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 
+# MinHook hooks functions with the Win32 API, so we only import it on
+# Windows.
+#
+if ($cxx.target.class == 'windows')
+  import impl_libs += libminhook%lib{minhook}
+
 lib{xi}: {hxx ixx txx cxx}{** -version} hxx{version} $impl_libs $intf_libs
 
 hxx{version}: in{version} $src_root/manifest

@@ -1,20 +1,50 @@
-# xi - <SUMMARY>
+# xi - Internal foundation for IW4x projects.
 
-`xi` is a <SUMMARY-OF-FUNCTIONALITY>.
+The `xi` project, short for X internal, holds the foundation that the IW4x
+projects build on. Its `libxi` library carries the facilities these projects
+share, so that each one is written and tested once.
 
 This file contains setup instructions and other details that are more
 appropriate for development rather than consumption. If you want to use
-`xi` in your `build2`-based project, then instead see the accompanying
-package [`README.md`](<PACKAGE>/README.md) file.
+`libxi` in your `build2`-based project, then instead see the accompanying
+package [`README.md`](libxi/README.md) file.
 
-The development setup for `xi` uses the standard `bdep`-based workflow.
-For example:
+## Development
+
+The development setup for `xi` uses the standard `bdep`-based workflow. On
+Linux we build natively with GCC and also cross-compile for Windows with
+MinGW-w64 GCC, running the tests under Wine with `WINEPATH` pointing to the
+directories that contain the MinGW runtime DLLs (as found on Fedora in the
+example below). For example:
 
 ```
-git clone .../xi.git
+git clone https://github.com/iw4x-x64-stage/xi.git
 cd xi
 
 bdep init -C @gcc cc config.cxx=g++
+bdep init -C @mingw cc config.cxx=x86_64-w64-mingw32-g++ \
+  config.test.runner="env WINEPATH=/usr/x86_64-w64-mingw32/sys-root/mingw/bin wine"
+bdep update -a
+bdep test -a
+```
+
+On Windows we build with MSVC from the x64 Native Tools Command Prompt or
+the matching PowerShell, which builds 64-bit binaries. For example:
+
+```
+git clone https://github.com/iw4x-x64-stage/xi.git
+cd xi
+
+bdep init -C -@msvc cc config.cxx=cl
 bdep update
 bdep test
 ```
+
+## License
+
+`xi` is licensed under the GNU General Public License, version 3, subject to
+the additional permissions described in version 1.1 of the IW4x Linking
+Exception.
+
+See [LICENSE](LICENSE.md), [LICENSE-EXCEPTION](LICENSE-EXCEPTION.md), and
+[AUTHORS](AUTHORS).

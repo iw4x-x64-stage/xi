@@ -14,6 +14,12 @@ lib{xi}: {hxx ixx txx cxx}{** -version} hxx{version} $impl_libs $intf_libs
 
 hxx{version}: in{version} $src_root/manifest
 
+# GCC's MinGW libstdc++ keeps the console support of std::print() in its
+# experimental library.
+#
+if ($cxx.target.class == 'windows' && $cxx.id == 'gcc')
+  cxx.libs += -lstdc++exp
+
 # Build options.
 #
 cxx.poptions =+ "-I$out_root" "-I$src_root"

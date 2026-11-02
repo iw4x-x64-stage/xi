@@ -21,22 +21,22 @@
 namespace xi
 {
   template <std::derived_from<std::exception> E>
-  class formatted_error: public E
+  class basic_error: public E
   {
   public:
     template <std::formattable<char>... A>
     explicit
-    formatted_error (std::format_string<A...> f, A&&... a)
+    basic_error (std::format_string<A...> f, A&&... a)
       : E (std::format (f, std::forward<A> (a)...)) {}
   };
 
-  using logic_error      = formatted_error<std::logic_error>;
-  using invalid_argument = formatted_error<std::invalid_argument>;
-  using domain_error     = formatted_error<std::domain_error>;
-  using length_error     = formatted_error<std::length_error>;
-  using out_of_range     = formatted_error<std::out_of_range>;
-  using runtime_error    = formatted_error<std::runtime_error>;
-  using range_error      = formatted_error<std::range_error>;
-  using overflow_error   = formatted_error<std::overflow_error>;
-  using underflow_error  = formatted_error<std::underflow_error>;
+  using logic_error      = basic_error<std::logic_error>;
+  using invalid_argument = basic_error<std::invalid_argument>;
+  using domain_error     = basic_error<std::domain_error>;
+  using length_error     = basic_error<std::length_error>;
+  using out_of_range     = basic_error<std::out_of_range>;
+  using runtime_error    = basic_error<std::runtime_error>;
+  using range_error      = basic_error<std::range_error>;
+  using overflow_error   = basic_error<std::overflow_error>;
+  using underflow_error  = basic_error<std::underflow_error>;
 }

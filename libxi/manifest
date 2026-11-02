@@ -1,0 +1,18 @@
+: 1
+name: libxi
+version: 0.1.0-a.0.z
+type: lib
+language: c++
+project: xi
+summary: Internal foundation library for IW4x projects.
+license: other: GPL-3.0-only with IW4x Linking Exception 1.1
+topics: development, foundation
+description-file: README.md
+changes-file: NEWS
+url: https://github.com/iw4x-x64-stage/xi
+src-url: https://github.com/iw4x-x64-stage/xi
+email: wroy@proton.me
+build-error-email: wroy@proton.me
+depends: * build2 >= 0.18.0
+depends: * bpkg >= 0.18.0
+builds: default : &( +linux +windows ) ; Platforms IW4x projects target.

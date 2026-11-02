@@ -17,3 +17,8 @@
 # Use `binary` to make sure certain files are never auto-detected as text.
 #
 #*.png binary
+
+# The identity register is data about the contributors and carries no
+# licence header.
+#
+identities -spdx

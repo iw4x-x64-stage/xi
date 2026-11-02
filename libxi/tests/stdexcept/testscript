@@ -1,0 +1,12 @@
+# Copyright (c) the IW4x authors (see the AUTHORS file).
+# SPDX-License-Identifier: GPL-3.0-only WITH AdditionRef-IW4x-Exception-1.1
+
+$* logic_error      >'logic_error: 42'       : logic-error
+$* invalid_argument >'invalid_argument: 42'  : invalid-argument
+$* domain_error     >'domain_error: 42'      : domain-error
+$* length_error     >'length_error: 42'      : length-error
+$* out_of_range     >'out_of_range: 42'      : out-of-range
+$* runtime_error    >'runtime_error: 42'     : runtime-error
+$* range_error      >'range_error: 42'       : range-error
+$* overflow_error   >'overflow_error: 42'    : overflow-error
+$* underflow_error  >'underflow_error: 42'   : underflow-error

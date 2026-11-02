@@ -12,7 +12,7 @@ windows = ($cxx.target.class == 'windows')
 if $windows
   import impl_libs += libminhook%lib{minhook}
 
-lib{xi}: {hxx ixx txx cxx}{** -version -win32/**} hxx{version}
+lib{xi}: {hxx ixx txx cxx}{** -config -version -win32/**} hxx{config version}
 
 # The hooks of the Win32 functions only exist on Windows. Note that they go
 # before the libraries, so that the linker sees MinHook after the objects
@@ -22,6 +22,7 @@ lib{xi}: win32/{hxx cxx}{**}: include = $windows
 
 lib{xi}: $impl_libs $intf_libs
 
+hxx{config}: in{config}
 hxx{version}: in{version} $src_root/manifest
 
 # Build options.

@@ -5,8 +5,6 @@
 #
 #cxx.internal.scope = current
 
-using in
-
 cxx.std = latest
 
 using cxx

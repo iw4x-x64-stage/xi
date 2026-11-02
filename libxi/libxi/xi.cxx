@@ -3,9 +3,6 @@
 
 #include <libxi/xi.hxx>
 
-#include <format>    // format()
-#include <stdexcept> // runtime_error
-
 #ifdef _WIN32
 #  include <libminhook/minhook.h>
 
@@ -13,8 +10,7 @@
 #endif
 
 #include <libxi/version.hxx>
-
-using namespace std;
+#include <libxi/stdexcept.hxx>
 
 namespace xi
 {
@@ -31,8 +27,8 @@ namespace xi
     // Initialize MinHook before anything gets a chance to create a hook.
     //
     if (mh_status s = mh_initialize (); s != MH_OK)
-      throw runtime_error (format ("unable to initialize minhook: {}",
-                                   mh_status_to_string (s)));
+      throw runtime_error ("unable to initialize minhook: {}",
+                           mh_status_to_string (s));
 
     // Hook the ExitProcess() that kernel32 exports, so that every call
     // reaches the detour, whichever import or address it goes through.
@@ -48,8 +44,8 @@ namespace xi
         s = mh_enable_hook (t);
 
       if (s != MH_OK)
-        throw runtime_error (format ("unable to hook ExitProcess: {}",
-                                     mh_status_to_string (s)));
+        throw runtime_error ("unable to hook ExitProcess: {}",
+                             mh_status_to_string (s));
     }
 #endif
 

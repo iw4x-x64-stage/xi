@@ -1,12 +1,31 @@
 # Copyright (c) the IW4x authors (see the AUTHORS file).
 # SPDX-License-Identifier: GPL-3.0-only WITH AdditionRef-IW4x-Exception-1.1
 
-$* logic_error      >'logic_error: 42'       : logic-error
-$* invalid_argument >'invalid_argument: 42'  : invalid-argument
-$* domain_error     >'domain_error: 42'      : domain-error
-$* length_error     >'length_error: 42'      : length-error
-$* out_of_range     >'out_of_range: 42'      : out-of-range
-$* runtime_error    >'runtime_error: 42'     : runtime-error
-$* range_error      >'range_error: 42'       : range-error
-$* overflow_error   >'overflow_error: 42'    : overflow-error
-$* underflow_error  >'underflow_error: 42'   : underflow-error
+: type
+: Test each type caught as the standard type that it derives from
+:
+{{
+  $* type logic_error      >'logic_error: 42'       : logic-error
+  $* type invalid_argument >'invalid_argument: 42'  : invalid-argument
+  $* type domain_error     >'domain_error: 42'      : domain-error
+  $* type length_error     >'length_error: 42'      : length-error
+  $* type out_of_range     >'out_of_range: 42'      : out-of-range
+  $* type runtime_error    >'runtime_error: 42'     : runtime-error
+  $* type range_error      >'range_error: 42'       : range-error
+  $* type overflow_error   >'overflow_error: 42'    : overflow-error
+  $* type underflow_error  >'underflow_error: 42'   : underflow-error
+}}
+
+$* literal >'unable to do it'  : literal
+$* escape  >'{42}'             : escape
+
+: computed
+: Test descriptions computed at run time, which keep their braces
+:
+$* computed <<EOI >>EOO
+invalid port {}
+{{}}
+EOI
+invalid port {}
+{{}}
+EOO

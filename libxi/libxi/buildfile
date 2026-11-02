@@ -4,21 +4,25 @@
 intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 
+windows = ($cxx.target.class == 'windows')
+
 # MinHook hooks functions with the Win32 API, so we only import it on
 # Windows.
 #
-if ($cxx.target.class == 'windows')
+if $windows
   import impl_libs += libminhook%lib{minhook}
 
-lib{xi}: {hxx ixx txx cxx}{** -version} hxx{version} $impl_libs $intf_libs
+lib{xi}: {hxx ixx txx cxx}{** -version -win32/**} hxx{version}
+
+# The hooks of the Win32 functions only exist on Windows. Note that they go
+# before the libraries, so that the linker sees MinHook after the objects
+# that use it.
+#
+lib{xi}: win32/{hxx cxx}{**}: include = $windows
+
+lib{xi}: $impl_libs $intf_libs
 
 hxx{version}: in{version} $src_root/manifest
-
-# GCC's MinGW libstdc++ keeps the console support of std::print() in its
-# experimental library.
-#
-if ($cxx.target.class == 'windows' && $cxx.id == 'gcc')
-  cxx.libs += -lstdc++exp
 
 # Build options.
 #
@@ -55,3 +59,7 @@ else
   install         = include/libxi/
   install.subdirs = true
 }
+
+# The hooks are private to the library.
+#
+win32/hxx{*}: install = false

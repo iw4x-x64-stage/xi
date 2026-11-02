@@ -4,3 +4,9 @@
 import libs = libxi%lib{xi}
 
 exe{driver}: {hxx ixx txx cxx}{**} $libs testscript
+
+# GCC's MinGW libstdc++ keeps the console support of std::print() in its
+# experimental library.
+#
+if ($cxx.target.class == 'windows' && $cxx.id == 'gcc')
+  cxx.libs += -lstdc++exp

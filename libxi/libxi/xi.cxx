@@ -3,11 +3,13 @@
 
 #include <libxi/xi.hxx>
 
-#include <print>
-#include <iostream> // cerr
+#include <format>    // format()
+#include <stdexcept> // runtime_error
 
 #ifdef _WIN32
 #  include <libminhook/minhook.h>
+
+#  include <libxi/win32/process-threads-api.hxx>
 #endif
 
 #include <libxi/version.hxx>
@@ -29,11 +31,25 @@ namespace xi
     // Initialize MinHook before anything gets a chance to create a hook.
     //
     if (mh_status s = mh_initialize (); s != MH_OK)
+      throw runtime_error (format ("unable to initialize minhook: {}",
+                                   mh_status_to_string (s)));
+
+    // Hook the ExitProcess() that kernel32 exports, so that every call
+    // reaches the detour, whichever import or address it goes through.
+    //
     {
-      println (cerr,
-               "error: unable to initialize minhook: {}",
-               mh_status_to_string (s));
-      return 1;
+      void* d (reinterpret_cast<void*> (&exit_process));
+      void* t (nullptr);
+
+      mh_status s (mh_create_hook_api_ex (L"kernel32", "ExitProcess",
+                                          d, exit_process_trampoline (), &t));
+
+      if (s == MH_OK)
+        s = mh_enable_hook (t);
+
+      if (s != MH_OK)
+        throw runtime_error (format ("unable to hook ExitProcess: {}",
+                                     mh_status_to_string (s)));
     }
 #endif
 

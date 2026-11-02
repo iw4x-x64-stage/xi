@@ -1,0 +1,14 @@
+# Copyright (c) the IW4x authors (see the AUTHORS file).
+# SPDX-License-Identifier: GPL-3.0-only WITH AdditionRef-IW4x-Exception-1.1
+
+import libs = libxi%lib{xi}
+
+# ExitProcess() only exists on Windows and so does MinHook, which tells us
+# whether the function is hooked.
+#
+if ($cxx.target.class == 'windows')
+  import libs += libminhook%lib{minhook}
+
+./: exe{driver}: include = ($cxx.target.class == 'windows')
+
+exe{driver}: {hxx ixx txx cxx}{**} $libs testscript

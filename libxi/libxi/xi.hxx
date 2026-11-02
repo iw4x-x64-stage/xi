@@ -20,6 +20,9 @@ namespace xi
   // Run the program with the command line arguments as passed to the C++
   // main() function and return its exit status.
   //
+  // Throw std::runtime_error if unable to set up the process, for example,
+  // to hook one of its functions.
+  //
   LIBXI_SYMEXPORT int
   main (int argc, char* argv[]);
 }

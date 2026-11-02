@@ -12,4 +12,10 @@ namespace xi
   {
     return LIBXI_VERSION_FULL;
   }
+
+  int
+  main (int, char*[])
+  {
+    return 0;
+  }
 }

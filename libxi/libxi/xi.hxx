@@ -16,4 +16,10 @@ namespace xi
   //
   LIBXI_SYMEXPORT const char*
   version () noexcept;
+
+  // Run the program with the command line arguments as passed to the C++
+  // main() function and return its exit status.
+  //
+  LIBXI_SYMEXPORT int
+  main (int argc, char* argv[]);
 }
